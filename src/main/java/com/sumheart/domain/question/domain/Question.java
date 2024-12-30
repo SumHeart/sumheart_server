@@ -1,4 +1,4 @@
-package com.sumheart.question.domain;
+package com.sumheart.domain.question.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
