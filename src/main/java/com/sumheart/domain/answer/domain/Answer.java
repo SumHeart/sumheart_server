@@ -1,5 +1,6 @@
 package com.sumheart.domain.answer.domain;
 
+import com.sumheart.domain.answer.domain.value.WeatherSticker;
 import com.sumheart.domain.family.domain.Family;
 import com.sumheart.domain.questionRecode.domain.QuestionRecode;
 import com.sumheart.domain.user.domain.Users;
@@ -29,12 +30,16 @@ public class Answer {
   @JoinColumn(name = "questionRecodeId")
   private QuestionRecode questionRecode;
 
+  @Enumerated(EnumType.STRING)
+  private WeatherSticker weatherSticker;
+
   private String content;
 
-  public Answer(Users user, Family family, QuestionRecode questionRecode, String content) {
+  public Answer(Users user, Family family, QuestionRecode questionRecode, String content, WeatherSticker weatherSticker) {
     this.user = user;
     this.family = family;
     this.questionRecode = questionRecode;
     this.content = content;
+    this.weatherSticker = weatherSticker;
   }
 }
