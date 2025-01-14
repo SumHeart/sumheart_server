@@ -2,11 +2,18 @@ package com.sumheart.domain.family.service;
 
 import com.sumheart.domain.family.domain.Family;
 import com.sumheart.domain.family.domain.repository.FamilyRepository;
+import com.sumheart.domain.user.domain.Users;
+import com.sumheart.domain.user.service.CommandUserService;
+import com.sumheart.domain.user.service.QueryUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -16,20 +23,38 @@ import java.util.Random;
 public class CommandFamilyService {
 
   private final FamilyRepository familyRepository;
+  private final QueryFamilyService queryFamilyService;
+  private final CommandUserService commandUserService;
+  private final QueryUserService queryUserService;
   private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-  public void create() {
-    Family family = new Family(createInvitationCode());
-    familyRepository.save(family);
+  public Family create(Date familyDay) {
+    Family family = new Family(createInvitationCode(), familyDay, getSinceFamilyDay(familyDay));
+    return familyRepository.save(family);
+  }
+
+  public void delete(Family family) {
+    familyRepository.delete(family);
+  }
+
+  public void joinFamily(String code, Long userId) {
+    Users user = queryUserService.getOne(userId);
+    Family family = queryFamilyService.findIdByCode(code);
+    delete(user.getFamily());
+    commandUserService.updateFamily(family, user);
   }
 
   @Scheduled(cron = "0 0 0 * * *")
   public void updateTotalDays() {
     List<Family> families = familyRepository.findAll();
-    for (Family family : families) {
-      family.updateTotalDays();
-      familyRepository.save(family);
-    }
+    families.forEach(family -> family.updateTotalDays(getSinceFamilyDay(family.getFamilyDay())));
+    familyRepository.saveAll(families);
+  }
+
+  public long getSinceFamilyDay(Date familyDay) {
+    LocalDate today = LocalDate.now();
+    LocalDate familyDate = familyDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    return ChronoUnit.DAYS.between(familyDate, today) + 1;
   }
 
   public String createInvitationCode() {
