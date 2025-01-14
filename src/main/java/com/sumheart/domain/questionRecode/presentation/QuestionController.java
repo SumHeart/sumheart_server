@@ -43,6 +43,6 @@ public class QuestionController {
 
   @PostMapping("/{question-id}/answer")
   public void createAnswer(@PathVariable("question-id") Long questionId, AnswerRequest answerRequest) {
-    commandAnswerService.create(questionId, answerRequest.content(), getMemberId());
+    commandAnswerService.create(questionId, answerRequest.content(), answerRequest.weatherStickerCode(), getMemberId());
   }
 }
