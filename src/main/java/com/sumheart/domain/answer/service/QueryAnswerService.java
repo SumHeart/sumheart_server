@@ -21,19 +21,9 @@ public class QueryAnswerService {
   private final QueryQuestionRecodeService queryQuestionRecodeService;
   private final QueryUserService queryUserService;
 
-  public Answer findByQuestionRecode(Long questionRecodeId) {
-    QuestionRecode questionRecode = queryQuestionRecodeService.getOne(questionRecodeId);
-    return answerRepository.findByQuestionRecode(questionRecode);
-  }
-
   public List<Answer> findAllByQuestionAndFamily(Long questionRecodeId, Long userId) {
     Users user = queryUserService.getOne(userId);
     QuestionRecode questionRecode = queryQuestionRecodeService.getOne(questionRecodeId);
     return answerRepository.findAllByQuestionRecodeAndFamily(questionRecode, user.getFamily());
-  }
-
-  public List<Answer> findAll(Long userId) {
-    Users user = queryUserService.getOne(userId);
-    return answerRepository.findDistinctByQuestionRecode(user.getFamily());
   }
 }
