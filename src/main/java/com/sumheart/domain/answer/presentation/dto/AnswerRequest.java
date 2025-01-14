@@ -1,6 +1,7 @@
 package com.sumheart.domain.answer.presentation.dto;
 
 public record AnswerRequest(
-    String content
+    String content,
+    long weatherStickerCode
 ) {
 }
