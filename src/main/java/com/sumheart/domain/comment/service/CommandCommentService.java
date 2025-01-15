@@ -22,7 +22,12 @@ public class CommandCommentService {
   public void create(Long questionRecodeId, String content, Long userId) {
     QuestionRecode questionRecode = queryQuestionRecodeService.getOne(questionRecodeId);
     Users user = queryUserService.getOne(userId);
-    Comment comment = new Comment(questionRecode, user.getFamily(), user, content);
+    Comment comment = Comment.builder()
+        .questionRecode(questionRecode)
+        .family(user.getFamily())
+        .user(user)
+        .content(content)
+        .build();
     commentRepository.save(comment);
   }
 }
