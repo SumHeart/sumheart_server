@@ -6,6 +6,7 @@ import com.sumheart.domain.user.domain.Users;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,6 +34,7 @@ public class Comment {
   @NotNull
   private String content;
 
+  @Builder
   public Comment(QuestionRecode questionRecode, Family family, Users user, String content) {
     this.questionRecode = questionRecode;
     this.family = family;
