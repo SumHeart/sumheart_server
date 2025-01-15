@@ -29,7 +29,11 @@ public class CommandFamilyService {
   private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   public Family create(Date familyDay) {
-    Family family = new Family(createInvitationCode(), familyDay, getSinceFamilyDay(familyDay));
+    Family family = Family.builder()
+        .invitationCode(createInvitationCode())
+        .familyDay(familyDay)
+        .totalDay(getSinceFamilyDay(familyDay))
+        .build();
     return familyRepository.save(family);
   }
 
