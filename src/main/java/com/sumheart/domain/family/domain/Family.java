@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,11 +27,13 @@ public class Family {
   @Pattern(regexp = "^[A-Za-z0-9]{6}$", message = "초대 코드는 6자리 영문/숫자로 구성되어야 합니다.")
   private String invitationCode;
 
+  @NotNull
   private Date familyDay;
 
-  @Column(nullable = false)
+  @NotNull
   private long totalDays;
 
+  @Builder
   public Family(String invitationCode, Date familyDay, long totalDay) {
     this.invitationCode = invitationCode;
     this.familyDay = familyDay;
