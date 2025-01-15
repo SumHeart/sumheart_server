@@ -24,10 +24,15 @@ public class CommandAnswerService {
   public void create(Long questionRecodeId, String content, long weatherStickerCode, Long userId) {
     boolean isDuplicateAnswer = answerRepository.existsByUserIdAndQuestionRecodeId(userId, questionRecodeId);
     if (isDuplicateAnswer) throw new UserAnswerExistsException();
-
     Users user = queryUserService.getOne(userId);
     QuestionRecode question = queryQuestionRecodeService.getOne(questionRecodeId);
-    Answer answer = new Answer(user, user.getFamily(), question, content, WeatherSticker.fromCode(weatherStickerCode));
+    Answer answer = Answer.builder()
+        .user(user)
+        .family(user.getFamily())
+        .questionRecode(question)
+        .content(content)
+        .weatherSticker(WeatherSticker.fromCode(weatherStickerCode))
+        .build();
     answerRepository.save(answer);
   }
 }
