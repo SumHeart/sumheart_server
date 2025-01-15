@@ -3,7 +3,7 @@ package com.sumheart.domain.answer.presentation.dto;
 import com.sumheart.domain.answer.domain.Answer;
 
 public record AnswerResponse(
-    Long Id,
+    Long answerId,
     Long userId,
     Long familyId,
     Long questionId,
