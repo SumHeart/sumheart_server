@@ -37,7 +37,7 @@ public class AuthController {
         HttpServletResponse response,
         @RequestBody AdditionalInfoRequest additionalInfoRequest
     ) {
-        additionalInfoUpdater.update(request, response, getMemberId(), additionalInfoRequest.username(), additionalInfoRequest.familyDay());
+        additionalInfoUpdater.update(request, response, getMemberId(), additionalInfoRequest.username(), additionalInfoRequest.familyDay(), additionalInfoRequest.petName());
     }
 
     @GetMapping("/check")
