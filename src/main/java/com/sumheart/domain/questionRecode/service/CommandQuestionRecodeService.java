@@ -26,7 +26,19 @@ public class CommandQuestionRecodeService {
   private final QueryFamilyService queryFamilyService;
 
   public void create(Question question, Family family) {
-    QuestionRecode questionRecode = new QuestionRecode(question, family);
+    QuestionRecode questionRecode = QuestionRecode.builder()
+        .question(question)
+        .family(family)
+        .build();
+    questionRecodeRepository.save(questionRecode);
+  }
+
+  public void create(Family family) {
+    Question question = queryQuestionService.getOne(1L);
+    QuestionRecode questionRecode = QuestionRecode.builder()
+        .question(question)
+        .family(family)
+        .build();
     questionRecodeRepository.save(questionRecode);
   }
 
