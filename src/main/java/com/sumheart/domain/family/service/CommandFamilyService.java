@@ -1,7 +1,10 @@
 package com.sumheart.domain.family.service;
 
+import com.sumheart.domain.pet.domain.Pet;
+import com.sumheart.domain.pet.service.CommandPetService;
 import com.sumheart.domain.family.domain.Family;
 import com.sumheart.domain.family.domain.repository.FamilyRepository;
+import com.sumheart.domain.questionRecode.service.CommandQuestionRecodeService;
 import com.sumheart.domain.user.domain.Users;
 import com.sumheart.domain.user.service.CommandUserService;
 import com.sumheart.domain.user.service.QueryUserService;
@@ -26,14 +29,19 @@ public class CommandFamilyService {
   private final QueryFamilyService queryFamilyService;
   private final CommandUserService commandUserService;
   private final QueryUserService queryUserService;
+  private final CommandQuestionRecodeService commandQuestionRecodeService;
+  private final CommandPetService commandPetService;
   private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-  public Family create(Date familyDay) {
+  public Family create(Date familyDay, String petName) {
+    Pet pet = commandPetService.create(petName);
     Family family = Family.builder()
         .invitationCode(createInvitationCode())
         .familyDay(familyDay)
         .totalDay(getSinceFamilyDay(familyDay))
+        .pet(pet)
         .build();
+    commandQuestionRecodeService.create(family);
     return familyRepository.save(family);
   }
 
