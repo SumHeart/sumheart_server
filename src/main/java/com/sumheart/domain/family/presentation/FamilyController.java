@@ -3,6 +3,7 @@ package com.sumheart.domain.family.presentation;
 import com.sumheart.domain.family.presentation.dto.GetFamilyResponse;
 import com.sumheart.domain.family.presentation.dto.JoinFamilyRequest;
 import com.sumheart.domain.family.service.CommandFamilyService;
+import com.sumheart.domain.family.service.QueryFamilyService;
 import com.sumheart.domain.user.service.CommandUserService;
 import com.sumheart.domain.user.service.QueryUserService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,20 @@ import static com.sumheart.common.jwt.util.AuthenticationUtil.getMemberId;
 @RequiredArgsConstructor
 @RequestMapping("/family")
   public class FamilyController {
+
   private final CommandFamilyService commandFamilyService;
+  private final QueryFamilyService queryFamilyService;
   private final CommandUserService commandUserService;
   private final QueryUserService queryUserService;
 
   @GetMapping
   public GetFamilyResponse getFamily() {
     return queryUserService.getFamily(getMemberId());
+  }
+
+  @GetMapping("/code")
+  public String getFamilyCode() {
+    return queryFamilyService.getCode(getMemberId());
   }
 
   @PostMapping
