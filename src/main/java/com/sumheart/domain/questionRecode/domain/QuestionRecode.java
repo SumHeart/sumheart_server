@@ -4,6 +4,7 @@ import com.sumheart.domain.family.domain.Family;
 import com.sumheart.domain.question.domain.Question;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -33,6 +34,7 @@ public class QuestionRecode {
   @CreatedDate
   private LocalDateTime createdAt;
 
+  @Builder
   public QuestionRecode(Question question, Family family) {
     this.question = question;
     this.family = family;
