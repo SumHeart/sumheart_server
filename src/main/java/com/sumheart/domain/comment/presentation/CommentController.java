@@ -19,15 +19,15 @@ public class CommentController {
   private final CommandCommentService commandCommentService;
   private final QueryCommentService queryCommentService;
 
-  @GetMapping("/{question-id}/comment")
-  public List<CommentResponse> findAll(@PathVariable("question-id") Long questionId) {
+  @GetMapping("/{questionRecode-id}/comment")
+  public List<CommentResponse> findAll(@PathVariable("questionRecode-id") Long questionId) {
     return queryCommentService.findAllByQuestion(questionId, getMemberId()).stream()
         .map(CommentResponse::from)
         .toList();
   }
 
-  @PostMapping("/{question-id}/comment")
-  public void createComment(@PathVariable("question-id") Long questionId, @RequestBody CommentRequest request) {
+  @PostMapping("/{questionRecode-id}/comment")
+  public void createComment(@PathVariable("questionRecode-id") Long questionId, @RequestBody CommentRequest request) {
     commandCommentService.create(questionId, request.content(), getMemberId());
   }
 }
