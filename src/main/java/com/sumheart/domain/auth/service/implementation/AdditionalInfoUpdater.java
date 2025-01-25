@@ -30,10 +30,10 @@ public class AdditionalInfoUpdater {
   private final CommandFamilyService commandFamilyService;
 
   @Transactional
-  public void update(HttpServletRequest request, HttpServletResponse response, Long userId, String username, Date familyDay) {
+  public void update(HttpServletRequest request, HttpServletResponse response, Long userId, String username, Date familyDay, String petName) {
     Users user = userRepository.findById(userId)
         .orElseThrow(UserNotFoundException::new);
-    Family family = commandFamilyService.create(familyDay);
+    Family family = commandFamilyService.create(familyDay, petName);
 
     String refresh = jwtUtil.getTokenFromCookies(request, "refresh_social");
 
