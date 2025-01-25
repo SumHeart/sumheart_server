@@ -4,6 +4,7 @@ import java.util.Date;
 
 public record AdditionalInfoRequest(
     String username,
-    Date familyDay
+    Date familyDay,
+    String petName
 ) {
 }
