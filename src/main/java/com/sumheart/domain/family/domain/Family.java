@@ -1,5 +1,6 @@
 package com.sumheart.domain.family.domain;
 
+import com.sumheart.domain.pet.domain.Pet;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -27,6 +28,10 @@ public class Family {
   @Pattern(regexp = "^[A-Za-z0-9]{6}$", message = "초대 코드는 6자리 영문/숫자로 구성되어야 합니다.")
   private String invitationCode;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "petId")
+  private Pet pet;
+
   @NotNull
   private Date familyDay;
 
@@ -34,10 +39,11 @@ public class Family {
   private long totalDays;
 
   @Builder
-  public Family(String invitationCode, Date familyDay, long totalDay) {
+  public Family(String invitationCode, Date familyDay, long totalDay, Pet pet) {
     this.invitationCode = invitationCode;
     this.familyDay = familyDay;
     this.totalDays = totalDay;
+    this.pet = pet;
   }
 
   public void updateTotalDays(long totalDays) {
